@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+:root {
+    --Dark-blue: #0A3871;
+    --Light-gray: #f3f5fc;
+}
+
+html {
+    font-size: 10px;
+    /*make 1 rem = 10px*/
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    background-color: var(--Light-gray);
+}
+
+header {
+    width: 100%;
+    padding: 2.4rem 1.6rem;
+}
+
+main {
+    height: 100vh;
+    /* width: 100%; */
+    max-width: 940px;
+}
+
+.container {
+    width: inherit;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+}
+
+.game-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btnNewGame {
+    width: 317px;
+    height: 105px;
+    border-radius: 24px;
+    background-color: var(--Dark-blue);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+.btnNewWord {
+    width: 278px;
+    height: 67px;
+    border-radius: 24px;
+    border: 1px solid #0A3871;
+    background-color: var(--Light-gray);
+    color: #0A3871;
+    cursor: pointer;
+}
+
+.start-game {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.inputNewWord {
+    width: 343px;
+    background-color: var(--Light-gray);
+    border: none;
+    padding-bottom: 25rem;
+    font-size: 3.2rem;
+}
+
+::placeholder {
+    color: var(--Dark-blue);
+}
+
+.info-img {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem;
+}
+
+.info-img p {
+    font-size: 1.2rem;
+}
+
+.info-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+}
+
+.btnSave {
+    width: 343px;
+    height: 67px;
+    background-color: var(--Dark-blue);
+    color: #ffffff;
+    /* padding: 2.4rem; */
+    border-radius: 2.4rem;
+    border: none;
+    cursor: pointer;
+}
+
+.btnCancel {
+    width: 343px;
+    height: 67px;
+    border-radius: 2.4rem;
+    border: 1px solid var(--Dark-blue);
+    background-color: var(--Light-gray);
+    color: var(--Dark-blue);
+    cursor: pointer;
+}
+
+/*--------------- Add-words-Hangman section -------------------*/
+
+.add-words {
+    max-width: 300px;
+}
+
+.game-words {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* letter-spacing: 1rem; */
+    font-size: 2.4rem;
+    color: var(--Dark-blue);
+    flex-direction: column;
+    line-height: 3rem;
+    align-items: center;
+}
+
+.letter {
+    padding: 1rem;
+    margin: 0 1rem;
+}
+
+.underline {
+    background-image: url(../assets/Rectangle\ 6.png);
+    width: 4.8rem;
+    height: 0.4rem;
+    margin: 0.4rem;
+    display: block;
+    margin-top: 5rem;
+}
+
+.letterContainer {
+    letter-spacing: 1rem
+}
+
+
+
+
+.hidden {
+    display: none;
+}
+
+
+/* Ver de hacer una clase y copiarsela a todos los boones ya que son todos iguales con los estilos */
