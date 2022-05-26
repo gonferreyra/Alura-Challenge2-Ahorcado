@@ -74,7 +74,7 @@ main {
 }
 
 .inputNewWord {
-    width: 343px;
+    width: 300px;
     background-color: var(--Light-gray);
     border: none;
     padding-bottom: 25rem;
@@ -128,13 +128,14 @@ main {
 
 .add-words {
     max-width: 300px;
+    margin-top: 3rem;
 }
 
 .game-words {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    /* letter-spacing: 1rem; */
+    letter-spacing: 0.7rem;
     font-size: 2.4rem;
     color: var(--Dark-blue);
     flex-direction: column;
@@ -161,11 +162,63 @@ main {
 }
 
 
+.btnNewgame2 {
+    width: 278px;
+    height: 67px;
+    border-radius: 24px;
+    border: 1px solid #0A3871;
+    background-color: var(--Dark-blue);
+    color: #ffffff;
+    cursor: pointer;
+}
 
+.btnQuit {
+    width: 278px;
+    height: 67px;
+    border-radius: 24px;
+    border: 1px solid #0A3871;
+    background-color: var(--Light-gray);
+    color: #0A3871;
+    cursor: pointer;
+}
+
+.buttons-game {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin: 2rem auto;
+}
+
+/* -------Footer------- */
+
+footer {
+    padding: 3rem;
+
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+.footer-container a {
+    text-decoration: none;
+}
+
+.icons i {
+    text-decoration: none;
+    color: var(--darker-primary-color);
+    padding: 5px;
+    font-size: 2.5rem;
+    color: var(--Dark-blue);
+}
 
 .hidden {
     display: none;
 }
 
-
-/* Ver de hacer una clase y copiarsela a todos los boones ya que son todos iguales con los estilos */
+/* Ver de hacer una clase y copiarsela a todos los botones ya que son todos iguales con los estilos */
+/* Juntar todos los botonnes en la misma parte del css */

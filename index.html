@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alura challenge nº 2 - Ahorcado</title>
+    <script src="https://kit.fontawesome.com/16c0af3568.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -21,7 +22,8 @@
                 <button class="btnNewGame">Iniciar juego</button>
                 <button class="btnNewWord">Agregar nueva palabra</button>
             </section>
-            <section class="start-game hidden">
+            <!-- <section class="start-game hidden"> -->
+            <section class="add-words hidden">
                 <input type="text" class="inputNewWord" placeholder="Ingrese una palabra">
                 <div class="info-img">
                     <img src="./assets/warning.png" alt="warning-img">
@@ -32,20 +34,37 @@
                     <button class="btnCancel">Cancelar</button>
                 </div>
             </section>
-            <section class="add-words">
+            <!-- <section class="add-words hidden"> -->
+            <section class="start-game hidden">
                 <div class="hangman"></div>
-                <div class="game-words hidden">
+                <div class="game-words">
                     <div class="hangman-container">
                         <canvas id="canvasHangman" width="200px" height="300px"></canvas>
                     </div>
                     <div class="letterContainer"></div>
-                    <div class="wrongLetter"></div>
+                    <div class="wrongLetter"><span> </span></div>
                 </div>
-                <div class="buttons-game"></div>
+                <div class="buttons-game">
+                    <button class="btnNewgame2">Nuevo juego</button>
+                    <button class="btnQuit">Desistir</button>
+                </div>
             </section>
         </div>
     </main>
-
+    <footer>
+        <div class="footer-container">
+            <p>Gonzalo Ferreyra @2022</p>
+            <p>Made for ORACLE NEXT EDUCATION - Alura Latam</p>
+            <div class="icons">
+                <a href="">
+                    <i class="fa fa-github fa-2x"></i>
+                </a>
+                <a href="">
+                    <i class="fa fa-linkedin fa-2x"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
     <script src="./js/app.js"></script>
     <script src="./js/canvas.js"></script>
 </body>
