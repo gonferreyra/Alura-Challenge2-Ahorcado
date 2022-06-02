@@ -6,16 +6,12 @@ const btnSave = document.querySelector('.btnSave');
 const btnCancel = document.querySelector('.btnCancel');
 const inputNewWord = document.querySelector('.inputNewWord');
 const startGame = document.querySelector('.start-game')
-
 const gameWord = document.querySelector('.add-words');
 const letterDiv = document.querySelector('.letterContainer')
 const wrongLetter = document.querySelector('.wrongLetter');
 const canvasHangman = document.querySelector('#canvasHangman');
 const board = canvasHangman.getContext("2d");
 const main = document.querySelector('main');
-
-
-// Section
 const gameMenu = document.querySelector('.game-menu');
 
 // Palabras
@@ -31,43 +27,37 @@ let count = 0;
 //Errores
 let mistakes = 0;
 
-
-cargarEventListeners();
-
-function cargarEventListeners(e) {
+document.addEventListener('DOMContentLoaded', (e) => {
+    e.preventDefault();
     btnNewGame.addEventListener('click', randomWord);
     btnNewWord.addEventListener('click', newWord);
     btnNewGame2.addEventListener('click', () => {
         cleanHTML();
         randomWord();
     });
-};
-
-
+})
 
 const cleanHTML = () => {
     palabraMostrar = [];
     letterDiv.textContent = '';
-    // console.log('cleaning textcontent');
+    lettersWrong = [];
+    wrongLetter.textContent = '';
+    board.clearRect(0, 0, 200, 300);
+    mistakes = 0;
+    test = false
 };
 
-// function newGame() {
-//     console.log("juego nuevo")
-// };
-
-function randomWord() {
+const randomWord = () => {
     word = words[Math.floor(Math.random() * words.length)];
     console.log(word)
     gameMenu.classList.add('hidden');
     startGame.classList.remove('hidden');
     showUnderline(word);
     checkLetter(word);
+    test = true;
 };
 
-
-function showUnderline(word) {
-    // const underline = word.replace(/./g, "_ ");
-    // console.log(underline)
+const showUnderline = (word) => {
     for (let letra of word) {
         palabraMostrar.push('_');
     }
@@ -86,39 +76,57 @@ function showUnderline(word) {
     board.stroke();
 };
 
-function checkLetter(letter) {
+let test = true;
+let letrasIngresadasRepetidas = [];
+
+const checkLetter = () => {
     document.addEventListener('keydown', (e) => {
         const keyPressed = e.key;
-        // const keyPressedValidate = e.keyCode
-        // validate(keyPressedValidate);
-        console.log(e)
-        if (validator(keyPressed) && keyPressed.length <= 1 && keyPressed != '') {
-            for (let i = 0; i < word.length; i++) {
-                if (keyPressed === word[i]) {
-                    console.log(word[i])
-                    palabraMostrar[i] = keyPressed.toUpperCase();
-                    letterDiv.textContent = palabraMostrar.join('');
+        // console.log(e)
+        if (test) {
+            if (validator(keyPressed) && keyPressed.length <= 1 && keyPressed != '') {
+                for (let i = 0; i < word.length; i++) {
+                    if (keyPressed === word[i]) {
+                        console.log(word[i])
+                        palabraMostrar[i] = keyPressed.toUpperCase();
+                        letterDiv.textContent = palabraMostrar.join('');
+                    }
                 }
             }
-        }
-        // AGREGAR CUANDO INGRESA UNA LETRA REPETIDA QUE NO LA TOME COMO NUEVA LETRA
+            // AGREGAR CUANDO INGRESA UNA LETRA REPETIDA QUE NO LA TOME COMO NUEVA LETRA
 
-        // Mostrar la letra equivocada
-        if (!word.includes(keyPressed) && keyPressed.length <= 1 && keyPressed != ' ') {
-            // console.log(keyPresed)
-            lettersWrong.push(keyPressed)
-            wrongLetter.textContent = lettersWrong.join(''); // Ver si puedo lograr que no se vaya hacia arriba el contenido cuando se agrega la letra erronea
+            // Mostrar la letra equivocada
+            if (!word.includes(keyPressed) && keyPressed.length <= 1 && keyPressed != ' ' && isNaN(keyPressed)) {
+                // console.log(keyPresed)
 
-            // Quitar intentos
-            mistakes++
-            // dibujar ahorcado
-            drawLines(mistakes);
+                lettersWrong.push(keyPressed)
+                wrongLetter.textContent = lettersWrong.join('');
+
+                // Quitar intentos
+                mistakes++;
+
+                // testLetrasIngresadas.push(keyPressed);
+
+
+
+                // dibujar ahorcado
+                drawLines(mistakes);
+            }
+            // Como salir de la funcion si se aprienta btnNewGame2
+
+        } else {
+            return;
         }
+
     });
+}
+
+const completado = (mistakes) => {
+
 };
 
-function validator(input) {
-    //Solo aceptar mayusculas y minusculas. No acepta ningún otro carácter. El espacios y demas caracteres lo validamos con el key.length
+const validator = (input) => {
+    //Solo aceptar mayusculas y minusculas. No acepta ningún otro carácter. El espacios y demas caracteres lo validamos con el key.length y los numeros con isNaN
     let regex = /[a-zA-Z]/;
     if (regex.test(input)) {
         return true;
@@ -127,9 +135,20 @@ function validator(input) {
     }
 }
 
-function newWord() {
+const newWord = () => {
     gameMenu.classList.add('hidden');
     gameWord.classList.remove('hidden');
-}
+    btnSave.addEventListener('click', () => {
+        words.push(inputNewWord.value);
+        gameMenu.classList.remove('hidden');
+        gameWord.classList.add('hidden');
+        // randomWord();
+    });
+};
 
- // Falta: bloquear juego cuando se llegan a tantos intentos
+
+// PORQUES SE EJECUTA 2 VECES LA FUNCION CUANDO TERMINA (NO LA HICE TERMINAR??)
+
+// Las letras equivocadas deben aparecer en la pantalla, pero no pueden aparecer de forma repetida; FOR LOOP con variable?? LISTO
+
+// que termine y que muestre un mensaje de ganador

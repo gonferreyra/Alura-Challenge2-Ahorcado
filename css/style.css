@@ -30,6 +30,7 @@ main {
     height: 100vh;
     /* width: 100%; */
     max-width: 940px;
+    margin: auto;
 }
 
 .container {
@@ -45,6 +46,7 @@ main {
     justify-content: center;
     align-items: center;
     gap: 8px;
+    margin: 0 auto;
 }
 
 .btnNewGame {
@@ -70,7 +72,8 @@ main {
 .start-game {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
+    margin: 0 auto;
 }
 
 .inputNewWord {
@@ -124,11 +127,12 @@ main {
     cursor: pointer;
 }
 
-/*--------------- Add-words-Hangman section -------------------*/
+/*--------------- Add-words- New Word section -------------------*/
 
 .add-words {
-    max-width: 300px;
-    margin-top: 3rem;
+    /* max-width: 300px; */
+    /* margin-top: 3rem; */
+    margin: 1rem auto 0;
 }
 
 .game-words {
@@ -219,6 +223,38 @@ footer {
 .hidden {
     display: none;
 }
+
+/* --------Media querys -------- */
+
+@media screen and (min-width: 768px) {
+    .add-words {
+        margin: 1rem;
+    }
+
+    .info-buttons,
+    .buttons-game {
+        flex-direction: row;
+    }
+}
+
+@media screen and (min-width: 1240px) {
+    body {
+        font-size: 1.7rem;
+    }
+
+    button {
+        font-size: 1.8rem;
+    }
+
+    main {
+        height: 75vh;
+    }
+
+    .start-game {
+        justify-content: center;
+    }
+}
+
 
 /* Ver de hacer una clase y copiarsela a todos los botones ya que son todos iguales con los estilos */
 /* Juntar todos los botonnes en la misma parte del css */

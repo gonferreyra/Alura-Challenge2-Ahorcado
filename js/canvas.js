@@ -1,18 +1,5 @@
 function drawLines(mistakes) {
-    switch (mistakes) {
-      //  case 1 :
-      //    board.strokeStyle = '#0A3871';
-      //    board.lineWidth = 10; 
-      //    board.beginPath();
-      //    board.moveTo(175, 225);
-      //    board.lineTo(5, 225);
-      //    board.moveTo(40, 225);
-      //    board.lineTo(25, 5);
-      //    board.lineTo(100, 5);
-      //    board.lineTo(100, 25);
-      //    board.stroke();
-      //    break;
- 
+    switch (mistakes) { 
        case 1:
          board.lineWidth = 5;
          board.beginPath();
@@ -68,8 +55,10 @@ function drawLines(mistakes) {
           board.moveTo(122, 190);
           board.lineTo(135, 185);
           board.stroke();
-          // finaliza el juego
-          alert('Perdiste. Inicia el juego nuevamente para intentarlo');
+          alert('Perdiste. Presiona Nuevo Juego para iniciar nuevamente el ahorcado');
+        //     mistakes = 0;
+          cleanHTML();
+          test = false;
        break;
     } 
  }
