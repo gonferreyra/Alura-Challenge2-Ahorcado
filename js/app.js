@@ -28,127 +28,160 @@ let count = 0;
 let mistakes = 0;
 
 document.addEventListener('DOMContentLoaded', (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     btnNewGame.addEventListener('click', randomWord);
-    btnNewWord.addEventListener('click', newWord);
+    // btnNewWord.addEventListener('click', newWord);
     btnNewGame2.addEventListener('click', () => {
         cleanHTML();
-        randomWord();
-    });
-})
+        //     randomWord();
+        // });
+    })
 
-const cleanHTML = () => {
-    palabraMostrar = [];
-    letterDiv.textContent = '';
-    lettersWrong = [];
-    wrongLetter.textContent = '';
-    board.clearRect(0, 0, 200, 300);
-    mistakes = 0;
-    test = false
-};
+    const cleanHTML = () => {
+        palabraMostrar = [];
+        letterDiv.textContent = '';
+        lettersWrong = [];
+        wrongLetter.textContent = '';
+        board.clearRect(0, 0, 200, 300);
+        mistakes = 0;
+    };
 
-const randomWord = () => {
-    word = words[Math.floor(Math.random() * words.length)];
-    console.log(word)
-    gameMenu.classList.add('hidden');
-    startGame.classList.remove('hidden');
-    showUnderline(word);
-    checkLetter(word);
-    test = true;
-};
+    const randomWord = () => {
+        word = words[Math.floor(Math.random() * words.length)];
+        console.log(word)
+        gameMenu.classList.add('hidden');
+        startGame.classList.remove('hidden');
+        showUnderline(word);
+        return;
+        // checkLetter(word);
+    };
 
-const showUnderline = (word) => {
-    for (let letra of word) {
-        palabraMostrar.push('_');
-    }
-    console.log(palabraMostrar)
-    letterDiv.textContent = palabraMostrar.join('');
-    // Crear linea del juego
-    board.strokeStyle = '#0A3871';
-    board.lineWidth = 10;
-    board.beginPath();
-    board.moveTo(175, 225);
-    board.lineTo(5, 225);
-    board.moveTo(40, 225);
-    board.lineTo(25, 5);
-    board.lineTo(100, 5);
-    board.lineTo(100, 25);
-    board.stroke();
-};
+    const showUnderline = (word) => {
+        for (let letra of word) {
+            palabraMostrar.push('_');
+        }
+        console.log(palabraMostrar)
+        letterDiv.textContent = palabraMostrar.join('');
+        checkLetter(word);
+        // Crear linea del juego
+        board.strokeStyle = '#0A3871';
+        board.lineWidth = 10;
+        board.beginPath();
+        board.moveTo(175, 225);
+        board.lineTo(5, 225);
+        board.moveTo(40, 225);
+        board.lineTo(25, 5);
+        board.lineTo(100, 5);
+        board.lineTo(100, 25);
+        board.stroke();
+    };
 
-let test = true;
-let letrasIngresadasRepetidas = [];
+    const checkLetter = () => {
+        document.addEventListener('keydown', (e) => {
+            let keyPressed = e.key;
+            // console.log(e)
+            // if (test) {
 
-const checkLetter = () => {
-    document.addEventListener('keydown', (e) => {
-        const keyPressed = e.key;
-        // console.log(e)
-        if (test) {
-            if (validator(keyPressed) && keyPressed.length <= 1 && keyPressed != '') {
-                for (let i = 0; i < word.length; i++) {
-                    if (keyPressed === word[i]) {
-                        console.log(word[i])
-                        palabraMostrar[i] = keyPressed.toUpperCase();
-                        letterDiv.textContent = palabraMostrar.join('');
+
+            // if (mistakes == 8) {
+            //     alert('Perdiste. Presiona Nuevo Juego para iniciar nuevamente el ahorcado');
+            //     return;
+            // }
+
+            if (mistakes < 8) {
+                if (validator(keyPressed) && keyPressed.length <= 1 && keyPressed != '') {
+                    for (let i = 0; i < word.length; i++) {
+                        if (keyPressed === word[i]) {
+                            console.log(word[i])
+                            palabraMostrar[i] = keyPressed.toUpperCase();
+                            letterDiv.textContent = palabraMostrar.join('');
+                        }
                     }
                 }
+                // Mostrar la letra equivocada
+                if (!word.includes(keyPressed) && keyPressed.length <= 1 && keyPressed != ' ' && isNaN(keyPressed)) {
+                    // console.log(keyPresed)
+                    // AGREGAR CUANDO INGRESA UNA LETRA REPETIDA QUE NO LA TOME COMO NUEVA LETRA
+                    if (lettersWrong.includes(keyPressed)) {
+                        alert('Key has already been checked. try another letter');
+                        return;
+                    }
+
+                    lettersWrong.push(keyPressed)
+                    wrongLetter.textContent = lettersWrong.join('');
+
+                    // Quitar intentos
+                    mistakes++;
+
+                    // dibujar ahorcado
+                    drawLines(mistakes);
+                }
+            } else {
+                alert('finish');
+
+                return;
             }
-            // AGREGAR CUANDO INGRESA UNA LETRA REPETIDA QUE NO LA TOME COMO NUEVA LETRA
+            // if (validator(keyPressed) && keyPressed.length <= 1 && keyPressed != '') {
+            //     for (let i = 0; i < word.length; i++) {
+            //         if (keyPressed === word[i]) {
+            //             console.log(word[i])
+            //             palabraMostrar[i] = keyPressed.toUpperCase();
+            //             letterDiv.textContent = palabraMostrar.join('');
+            //         }
+            //     }
+            // }
+            // // Mostrar la letra equivocada
+            // if (!word.includes(keyPressed) && keyPressed.length <= 1 && keyPressed != ' ' && isNaN(keyPressed)) {
+            //     // console.log(keyPresed)
+            //     // AGREGAR CUANDO INGRESA UNA LETRA REPETIDA QUE NO LA TOME COMO NUEVA LETRA
+            //     if (lettersWrong.includes(keyPressed)) {
+            //         alert('Key has already been checked. try another letter');
+            //         return;
+            //     }
 
-            // Mostrar la letra equivocada
-            if (!word.includes(keyPressed) && keyPressed.length <= 1 && keyPressed != ' ' && isNaN(keyPressed)) {
-                // console.log(keyPresed)
+            //     lettersWrong.push(keyPressed)
+            //     wrongLetter.textContent = lettersWrong.join('');
 
-                lettersWrong.push(keyPressed)
-                wrongLetter.textContent = lettersWrong.join('');
+            //     // Quitar intentos
+            //     mistakes++;
 
-                // Quitar intentos
-                mistakes++;
-
-                // testLetrasIngresadas.push(keyPressed);
-
-
-
-                // dibujar ahorcado
-                drawLines(mistakes);
-            }
-            // Como salir de la funcion si se aprienta btnNewGame2
-
-        } else {
-            return;
-        }
-
-    });
-}
-
-const completado = (mistakes) => {
-
-};
-
-const validator = (input) => {
-    //Solo aceptar mayusculas y minusculas. No acepta ningún otro carácter. El espacios y demas caracteres lo validamos con el key.length y los numeros con isNaN
-    let regex = /[a-zA-Z]/;
-    if (regex.test(input)) {
-        return true;
-    } else {
-        return false;
+            //     // dibujar ahorcado
+            //     drawLines(mistakes);
+            // }
+        });
     }
-}
 
-const newWord = () => {
-    gameMenu.classList.add('hidden');
-    gameWord.classList.remove('hidden');
-    btnSave.addEventListener('click', () => {
-        words.push(inputNewWord.value);
-        gameMenu.classList.remove('hidden');
-        gameWord.classList.add('hidden');
-        // randomWord();
-    });
-};
+    // const completado = (mistakes) => {
+    //     if (mistakes == 8) {
 
+    //     }
+    // };
 
-// PORQUES SE EJECUTA 2 VECES LA FUNCION CUANDO TERMINA (NO LA HICE TERMINAR??)
+    const validator = (input) => {
+        //Solo aceptar mayusculas y minusculas. Los espacios y demas caracteres lo validamos con el key.length y los numeros con isNaN
+        let regex = /[a-zA-Z]/;
+        if (regex.test(input)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-// Las letras equivocadas deben aparecer en la pantalla, pero no pueden aparecer de forma repetida; FOR LOOP con variable?? LISTO
+    const newWord = () => {
+        gameMenu.classList.add('hidden');
+        gameWord.classList.remove('hidden');
+        btnSave.addEventListener('click', () => {
+            words.push(inputNewWord.value);
+            gameMenu.classList.remove('hidden');
+            gameWord.classList.add('hidden');
+            // randomWord();
+        });
+    };
+
+// Las letras equivocadas deben aparecer en la pantalla, pero no pueden aparecer de forma repetida; LISTOOO
 
 // que termine y que muestre un mensaje de ganador
+
+// cuando pierde y hacer el clearHTML, se sigue ejecutando
+
+// Al apretar el boton desistir, que detenga el funcionamiento
