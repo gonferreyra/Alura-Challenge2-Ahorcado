@@ -28,13 +28,13 @@ let count = 0;
 let mistakes = 0;
 
 document.addEventListener('DOMContentLoaded', (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     btnNewGame.addEventListener('click', randomWord);
     // btnNewWord.addEventListener('click', newWord);
-    // btnNewGame2.addEventListener('click', () => {
-    //     cleanHTML();
-    //     randomWord();
-    // });
+    btnNewGame2.addEventListener('click', () => {
+        cleanHTML();
+        // randomWord();
+    })
 });
 
 const cleanHTML = () => {
@@ -44,6 +44,7 @@ const cleanHTML = () => {
     wrongLetter.textContent = '';
     board.clearRect(0, 0, 200, 300);
     mistakes = 0;
+    randomWord()
 };
 
 const randomWord = () => {
@@ -52,7 +53,6 @@ const randomWord = () => {
     gameMenu.classList.add('hidden');
     startGame.classList.remove('hidden');
     showUnderline(word);
-    return;
     // checkLetter(word);
 };
 
@@ -63,90 +63,152 @@ const showUnderline = (word) => {
     console.log(palabraMostrar)
     letterDiv.textContent = palabraMostrar.join('');
     checkLetter(word);
-    // Crear linea del juego
-    board.strokeStyle = '#0A3871';
-    board.lineWidth = 10;
-    board.beginPath();
-    board.moveTo(175, 225);
-    board.lineTo(5, 225);
-    board.moveTo(40, 225);
-    board.lineTo(25, 5);
-    board.lineTo(100, 5);
-    board.lineTo(100, 25);
-    board.stroke();
 };
 
 const checkLetter = () => {
-    
+
+    //Controlador de eventos
+    const controller = new AbortController();
+
     document.addEventListener('keydown', (e) => {
-    let keyPressed = e.key;
-    if(mistakes >= 8) {
-        console.log(mistakes);
-        alert('you lost');
-        return;
-    // }
-    } else {
-        // document.addEventListener('keydown', (e) => {
-        // let keyPressed = e.key;
-        if (validator(keyPressed) && keyPressed.length <= 1 && keyPressed != '') {
-            for (let i = 0; i < word.length; i++) {
-                if (keyPressed === word[i]) {
-                    console.log(word[i])
-                    palabraMostrar[i] = keyPressed.toUpperCase();
-                    letterDiv.textContent = palabraMostrar.join('');
+        if (mistakes >= 9) {
+            controller.abort();
+            return gameOver();
+        } else {
+            let keyPressed = e.key;
+            if (validator(keyPressed) && keyPressed.length == 1 && keyPressed != '') {
+                for (let i = 0; i < word.length; i++) {
+                    if (keyPressed === word[i]) {
+                        console.log(word[i])
+                        // count++;
+                        // console.log(count);
+                        palabraMostrar[i] = keyPressed.toUpperCase();
+                        letterDiv.textContent = palabraMostrar.join('');
+                    }
+                }
+            }
+            // Verificar si gano
+            if (!letterDiv.textContent.includes('_')) {
+                alert('Gano');
+                controller.abort();
+            }
+
+            // Mostrar la letra equivocada
+            if (!word.includes(keyPressed) && keyPressed.length <= 1 && keyPressed != ' ' && isNaN(keyPressed)) {
+                // AGREGAR CUANDO INGRESA UNA LETRA REPETIDA QUE NO LA TOME COMO NUEVA LETRA
+                if (lettersWrong.includes(keyPressed)) {
+                    alert('Key has already been checked. try another letter');
+                    return;
+                };
+
+                lettersWrong.push(keyPressed)
+                wrongLetter.textContent = lettersWrong.join('');
+
+                // Quitar intentos
+                mistakes++;
+
+                // dibujar ahorcado
+                // drawLines(mistakes);
+                switch (mistakes) {
+                    case 1:
+                        board.strokeStyle = '#0A3871';
+                        board.lineWidth = 10;
+                        board.beginPath();
+                        board.moveTo(175, 225);
+                        board.lineTo(5, 225);
+                        board.moveTo(40, 225);
+                        board.lineTo(25, 5);
+                        board.lineTo(100, 5);
+                        board.lineTo(100, 25);
+                        board.stroke();
+                    case 2:
+                        board.lineWidth = 5;
+                        board.beginPath();
+                        board.arc(100, 50, 25, 0, Math.PI * 2, true);
+                        board.closePath();
+                        board.stroke();
+                        break;
+
+                    case 3:
+                        board.beginPath();
+                        board.moveTo(100, 75);
+                        board.lineTo(100, 140);
+                        board.stroke();
+                        break;
+
+                    case 4:
+                        board.beginPath();
+                        board.moveTo(100, 85);
+                        board.lineTo(60, 100);
+                        board.stroke();
+                        break;
+
+                    case 5:
+                        board.beginPath();
+                        board.moveTo(100, 85);
+                        board.lineTo(140, 100);
+                        board.stroke();
+                        break;
+
+                    case 6:
+                        board.beginPath();
+                        board.moveTo(100, 140);
+                        board.lineTo(80, 190);
+                        board.stroke();
+                        break;
+
+                    case 7:
+                        board.beginPath();
+                        board.moveTo(82, 190);
+                        board.lineTo(70, 185);
+                        board.stroke();
+                        break;
+
+                    case 8:
+                        board.beginPath();
+                        board.moveTo(100, 140);
+                        board.lineTo(125, 190);
+                        board.stroke();
+                        break;
+
+                    case 9:
+                        board.beginPath();
+                        board.moveTo(122, 190);
+                        board.lineTo(135, 185);
+                        board.stroke();
+                        break;
+                    default:
+                        break;
                 }
             }
         }
-        // Mostrar la letra equivocada
-        if (!word.includes(keyPressed) && keyPressed.length <= 1 && keyPressed != ' ' && isNaN(keyPressed)) {
-            // console.log(keyPresed)
-            // AGREGAR CUANDO INGRESA UNA LETRA REPETIDA QUE NO LA TOME COMO NUEVA LETRA
-            if (lettersWrong.includes(keyPressed)) {
-                alert('Key has already been checked. try another letter');
-                return;
-            }
+    }, { signal: controller.signal }
+    );
+};
 
-            lettersWrong.push(keyPressed)
-            wrongLetter.textContent = lettersWrong.join('');
-
-            // Quitar intentos
-            mistakes++;
-
-            // dibujar ahorcado
-            drawLines(mistakes);
-        }
-        // })
-    } 
-    return;
-    // }
-
-
-
-    // if (mistakes < 8) {
-    //     document.addEventListener('keydown', (e) => {
-            
-
-            
-    //     })
-
-
-    // } if(mistakes>=8) {
-    //     alert('finish');
-    //     // e.stopImmediatePropagation()
-    //     document.removeEventListener('keyup', checkLetter, false);
-    //     return;
-    // }
-    });
+const gameOver = () => {
+    alert('Juego finalizado');
 }
 
+// const checkIfWordCompleted = (arr) => {
+//     const wordLength = arr.length;
+//     let count = 0;
 
 
 
-// const completado = (mistakes) => {
-//     if (mistakes == 8) {
-
+//     for (let i = 0; i < wordLength; i++) {
+//         let currentWord = arr[i];
+//         if (currentWord.textContent.length === 1) {
+//             count++;
+//         }
 //     }
-// };
+
+//     if (count == wordLength) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 const validator = (input) => {
     //Solo aceptar mayusculas y minusculas. Los espacios y demas caracteres lo validamos con el key.length y los numeros con isNaN
