@@ -82,6 +82,7 @@ main {
     border: none;
     padding-bottom: 25rem;
     font-size: 3.2rem;
+    color: var(--Dark-blue);
 }
 
 ::placeholder {
