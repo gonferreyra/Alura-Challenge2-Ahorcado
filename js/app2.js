@@ -4,6 +4,7 @@ const btnNewGame2 = document.querySelector('.btnNewgame2');
 const btnNewWord = document.querySelector('.btnNewWord');
 const btnSave = document.querySelector('.btnSave');
 const btnCancel = document.querySelector('.btnCancel');
+const btnQuit = document.querySelector('.btnQuit');
 const inputNewWord = document.querySelector('.inputNewWord');
 const startGame = document.querySelector('.start-game')
 const gameWord = document.querySelector('.add-words');
@@ -30,11 +31,20 @@ let mistakes = 0;
 document.addEventListener('DOMContentLoaded', (e) => {
     e.preventDefault();
     btnNewGame.addEventListener('click', randomWord);
-    // btnNewWord.addEventListener('click', newWord);
-    btnNewGame2.addEventListener('click', () => {
-        cleanHTML();
-        // randomWord();
-    })
+    btnNewWord.addEventListener('click', newWord);
+    // btnNewGame2.addEventListener('click', () => {
+    //     cleanHTML();
+    // })
+    // btnQuit.addEventListener('click', () => {
+    //     gameMenu.classList.remove('hidden');
+    //     startGame.classList.add('hidden');
+    //     palabraMostrar = [];
+    //     letterDiv.textContent = '';
+    //     lettersWrong = [];
+    //     wrongLetter.textContent = '';
+    //     board.clearRect(0, 0, 200, 300);
+    //     mistakes = 0;
+    // })
 });
 
 const cleanHTML = () => {
@@ -70,18 +80,33 @@ const checkLetter = () => {
     //Controlador de eventos
     const controller = new AbortController();
 
+    btnNewGame2.addEventListener('click', () => {
+        cleanHTML();
+        controller.abort();
+    });
+
+    btnQuit.addEventListener('click', () => {
+        gameMenu.classList.remove('hidden');
+        startGame.classList.add('hidden');
+        palabraMostrar = [];
+        letterDiv.textContent = '';
+        lettersWrong = [];
+        wrongLetter.textContent = '';
+        board.clearRect(0, 0, 200, 300);
+        mistakes = 0;
+        controller.abort();
+    })
     document.addEventListener('keydown', (e) => {
         if (mistakes >= 9) {
             controller.abort();
             return gameOver();
         } else {
             let keyPressed = e.key;
+            // console.log(e);
             if (validator(keyPressed) && keyPressed.length == 1 && keyPressed != '') {
                 for (let i = 0; i < word.length; i++) {
                     if (keyPressed === word[i]) {
                         console.log(word[i])
-                        // count++;
-                        // console.log(count);
                         palabraMostrar[i] = keyPressed.toUpperCase();
                         letterDiv.textContent = palabraMostrar.join('');
                     }
@@ -102,7 +127,7 @@ const checkLetter = () => {
                 };
 
                 lettersWrong.push(keyPressed)
-                wrongLetter.textContent = lettersWrong.join('');
+                wrongLetter.textContent = lettersWrong.join('').toUpperCase();
 
                 // Quitar intentos
                 mistakes++;
@@ -190,26 +215,6 @@ const gameOver = () => {
     alert('Juego finalizado');
 }
 
-// const checkIfWordCompleted = (arr) => {
-//     const wordLength = arr.length;
-//     let count = 0;
-
-
-
-//     for (let i = 0; i < wordLength; i++) {
-//         let currentWord = arr[i];
-//         if (currentWord.textContent.length === 1) {
-//             count++;
-//         }
-//     }
-
-//     if (count == wordLength) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
 const validator = (input) => {
     //Solo aceptar mayusculas y minusculas. Los espacios y demas caracteres lo validamos con el key.length y los numeros con isNaN
     let regex = /[a-zA-Z]/;
@@ -225,16 +230,13 @@ const newWord = () => {
     gameWord.classList.remove('hidden');
     btnSave.addEventListener('click', () => {
         words.push(inputNewWord.value);
+        gameWord.classList.add('hidden');
+        randomWord();
+    });
+    btnCancel.addEventListener('click', () => {
         gameMenu.classList.remove('hidden');
         gameWord.classList.add('hidden');
-        // randomWord();
-    });
+    })
 };
-
-// Las letras equivocadas deben aparecer en la pantalla, pero no pueden aparecer de forma repetida; LISTOOO
-
-// que termine y que muestre un mensaje de ganador
-
-// cuando pierde y hacer el clearHTML, se sigue ejecutando
 
 // Al apretar el boton desistir, que detenga el funcionamiento

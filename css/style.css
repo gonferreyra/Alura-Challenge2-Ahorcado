@@ -234,10 +234,11 @@ footer {
     .info-buttons,
     .buttons-game {
         flex-direction: row;
+        justify-content: center;
     }
 }
 
-@media screen and (min-width: 1240px) {
+@media screen and (min-width: 1024px) {
     body {
         font-size: 1.7rem;
     }
@@ -252,6 +253,10 @@ footer {
 
     .start-game {
         justify-content: center;
+    }
+
+    .inputNewWord {
+        width: 600px;
     }
 }
 
