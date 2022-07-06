@@ -44,7 +44,7 @@ const cleanHTML = () => {
 
 const randomWord = () => {
     word = words[Math.floor(Math.random() * words.length)];
-    console.log(word)
+    // console.log(word)
     gameMenu.classList.add('hidden');
     startGame.classList.remove('hidden');
     showUnderline(word);
@@ -65,7 +65,7 @@ const showUnderline = (word) => {
     for (let letra of word) {
         palabraMostrar.push('_');
     }
-    console.log(palabraMostrar)
+    // console.log(palabraMostrar)
     letterDiv.textContent = palabraMostrar.join('');
     checkLetter(word);
 };
@@ -92,6 +92,7 @@ const checkLetter = () => {
         mistakes = 0;
         controller.abort();
     });
+
     document.addEventListener('keydown', (e) => {
         if (mistakes >= 8) {
             controller.abort();
@@ -102,7 +103,7 @@ const checkLetter = () => {
             if (validator(keyPressed) && keyPressed.length == 1 && keyPressed != '') {
                 for (let i = 0; i < word.length; i++) {
                     if (keyPressed === word[i]) {
-                        console.log(word[i])
+                        // console.log(word[i])
                         palabraMostrar[i] = keyPressed.toUpperCase();
                         letterDiv.textContent = palabraMostrar.join('');
                     }
@@ -144,7 +145,15 @@ const checkWinner = () => {
 };
 
 const gameOver = () => {
-    alert('El juego ha finalizado, se quedo sin intentos. Presiones "Juego Nuevo" para iniciar nuevamente el ahorcado');
+    alert('El juego ha finalizado, se quedo sin intentos');
+    gameMenu.classList.remove('hidden');
+    startGame.classList.add('hidden');
+    palabraMostrar = [];
+    letterDiv.textContent = '';
+    lettersWrong = [];
+    wrongLetter.textContent = '';
+    board.clearRect(0, 0, 200, 300);
+    mistakes = 0;
 }
 
 const validator = (input) => {
